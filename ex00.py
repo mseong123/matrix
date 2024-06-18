@@ -10,9 +10,7 @@ def main():
     u:Vector[float] = Vector([2,3])
     v:Vector[float] = Vector([5,7])
     a:Matrix[int] = Matrix([[1,2,3],[4,5,6]])
-    print(u.value)
-    print(v.value)
-    print(a.value)
+    print(a.size())
 
 if __name__ == "__main__":
     main()
