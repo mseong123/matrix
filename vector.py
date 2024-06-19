@@ -3,7 +3,6 @@ vector class definition and methods
 '''
 
 from typing import Generic
-import math
 from generics import K
 
 
@@ -41,17 +40,22 @@ class Vector(Generic[K]):
             It has O(1). Also not dependant on N. 
             Same with addition operations which happens in place. Hence O(1)
         '''
-        if self.size() == v.size():
-            for i in range(self.size()):
-                self._value[i] += v.value[i]
+        #O(n) time complexity and O(1) space complexity
+        if self.size() != v.size():
+            raise TypeError("vector not of same size")
+        for i in range(self.size()):
+            self._value[i] += v.value[i]
 
     def sub(self, v:'Vector[K]'):
         '''subtraction operation for vector'''
-        if self.size() == v.size():
-            for i in range(self.size()):
-                self._value[i] -= v.value[i]
+        #O(n) time complexity and O(1) space complexity
+        if self.size() != v.size():
+            raise TypeError("vector not of same size")
+        for i in range(self.size()):
+            self._value[i] -= v.value[i]
 
     def scl(self, a:K):
         '''scale operation for vector'''
+        #O(n) time complexity and O(1) space complexity
         for i in range(self.size()):
             self._value[i] *= a

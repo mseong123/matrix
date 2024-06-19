@@ -43,17 +43,22 @@ class Matrix(Generic[K]):
 
     def add(self, v:'Matrix[K]'):
         '''Add operation for matrix'''
-        if self.size() == v.size():
-            for i, _ in enumerate(self.value):
-                self.value[i] += v.value[i]
+        #O(n) time complexity and O(1) space complexity
+        if self.size() != v.size():
+            raise TypeError("matrix not of same size")
+        for i, _ in enumerate(self.value):
+            self.value[i] += v.value[i]
 
     def sub(self, v:'Matrix[K]'):
         '''Deduct operation for matrix''' 
-        if self.size() == v.size():
-            for i, _ in enumerate(self.value):
-                self.value[i] -= v.value[i]
+        #O(n) time complexity and O(1) space complexity
+        if self.size() != v.size():
+            raise TypeError("matrix not of same size")
+        for i, _ in enumerate(self.value):
+            self.value[i] -= v.value[i]
 
     def scl(self, a:K):
         '''Scale operation for Matrix'''
+        #O(n) time complexity and O(1) space complexity
         for i, _ in enumerate(self.value):
             self.value[i] *= a

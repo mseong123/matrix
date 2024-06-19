@@ -7,46 +7,60 @@ from matrix import Matrix
 def main():
     '''Test case for exercise 00'''
     print("Results for exercise 00")
+    print("Vector")
     u:Vector[float] = Vector([2., 3.])
     v:Vector[float] = Vector([5., 7.])
-    u.add(v)
-    u.print_vector()
-    print("")
     a:Vector[float] = Vector([2., 3.])
     b:Vector[float] = Vector([5., 7.])
-    a.sub(b)
+    c:Vector[float] = Vector([2., 3.])
+    try:
+        u.add(v)
+        a.sub(b)
+    except TypeError as e:
+        print(f"TypeError: {e}")
+        return
+    u.print_vector()
+    print("")
     a.print_vector()
     print("")
-    c:Vector[float] = Vector([2., 3.])
     c.scl(2.0)
     c.print_vector()
     print("")
-    m:Matrix[float] = Matrix([
-        [1.,2.],
-        [3.,4.]
-    ])
-    n:Matrix[float] = Matrix([
-        [7.,4.],
-        [-2.,2.]
-    ])
-    m.add(n)
+    print("Matrix")
+    try:
+        m:Matrix[float] = Matrix([
+            [1.,2.],
+            [3.,4.]
+        ])
+        n:Matrix[float] = Matrix([
+            [7.,4.],
+            [-2.,2.]
+        ])
+        o:Matrix[float] = Matrix([
+            [1.,2.],
+            [3.,4.]
+        ])
+        p:Matrix[float] = Matrix([
+            [7., 4.],
+            [-2., 2.]
+        ])
+        q:Matrix[float] = Matrix([
+            [1.,2.],
+            [3.,4.]
+        ])
+    except TypeError as e:
+        print(f"TypeError {e}")
+        return
+    try:
+        m.add(n)
+        o.sub(p)
+    except TypeError as e:
+        print(f"TypeError {e}")
+        return
     m.print_matrix()
     print("")
-    o:Matrix[float] = Matrix([
-        [1.,2.],
-        [3.,4.]
-    ])
-    p:Matrix[float] = Matrix([
-        [7.,4.],
-        [-2.,2.]
-    ])
-    o.sub(p)
     o.print_matrix()
     print("")
-    q:Matrix[float] = Matrix([
-        [1.,2.],
-        [3.,4.]
-    ])
     q.scl(2.)
     q.print_matrix()
 
