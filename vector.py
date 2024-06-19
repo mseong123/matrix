@@ -3,20 +3,20 @@ vector class definition and methods
 '''
 
 from typing import Generic
-from generics import T
 import math
+from generics import K
 
 
-class Vector(Generic[T]):
+class Vector(Generic[K]):
     '''Vector class''' 
-    def __init__(self, value:list[T]):
+    def __init__(self, value:list[K]):
         '''store value in 2d array due to print format'''
-        self._value = []
+        self._value:list[K] = []
         for i in value:
             self._value.append(i)
 
     @property
-    def value(self) -> list[T]:
+    def value(self) -> list[K]:
         '''class getter for _value'''
         return self._value
 
@@ -27,9 +27,9 @@ class Vector(Generic[T]):
     def print_vector(self) -> None:
         '''Utility function. Print vector values'''
         for i in self._value:
-            print(i)
-
-    def add(self, v:'Vector[T]'):
+            print([i])
+    #exercise 00
+    def add(self, v:'Vector[K]'):
         '''addition operation for vector
             Time complexity -
             the comparison operators not counted since they are constant and doesn't 
@@ -45,15 +45,13 @@ class Vector(Generic[T]):
             for i in range(self.size()):
                 self._value[i] += v.value[i]
 
-    def sub(self, v:'Vector[T]'):
+    def sub(self, v:'Vector[K]'):
         '''subtraction operation for vector'''
         if self.size() == v.size():
             for i in range(self.size()):
                 self._value[i] -= v.value[i]
 
-    def scl(self, a:T):
+    def scl(self, a:K):
         '''scale operation for vector'''
         for i in range(self.size()):
             self._value[i] *= a
-
-
