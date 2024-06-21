@@ -2,7 +2,7 @@
 
 from vector import Vector
 from matrix import Matrix
-
+from matrix import reshape_vector_to_matrix
 
 def main():
     '''Test case for exercise 00'''
@@ -41,21 +41,21 @@ def main():
             [3.,4.]
         ])
         p:Matrix[float] = Matrix([
-            [7., 4.],
-            [-2., 2.]
+            [7.,4.],
+            [-2.,-2.]
         ])
         q:Matrix[float] = Matrix([
             [1.,2.],
             [3.,4.]
         ])
-    except TypeError as e:
-        print(f"TypeError {e}")
+    except (TypeError, ValueError) as e:
+        print(f"Error occured: {e}")
         return
     try:
         m.add(n)
         o.sub(p)
-    except TypeError as e:
-        print(f"TypeError {e}")
+    except (TypeError, ValueError) as e:
+        print(f"Error occured: {e}")
         return
     m.print_matrix()
     print("")

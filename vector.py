@@ -2,14 +2,16 @@
 vector class definition and methods
 '''
 
-from typing import Generic
-from generics import K
+from typing import Generic, TypeVar
 
+K = TypeVar("K", int, float)
 
 class Vector(Generic[K]):
     '''Vector class''' 
     def __init__(self, value:list[K]):
         '''store value in 2d array due to print format'''
+        if len(value) == 0:
+            raise ValueError("Empty list in Vector initialisation")
         self._value:list[K] = []
         for i in value:
             self._value.append(i)
@@ -59,3 +61,4 @@ class Vector(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         for i in range(self.size()):
             self._value[i] *= a
+

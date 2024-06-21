@@ -1,22 +1,27 @@
 '''
 matrix class definition and methods
 '''
-from typing import Generic
-from generics import K
+from typing import Generic, TypeVar
+from vector import Vector
+
+K = TypeVar("K", int, float)
 
 class Matrix(Generic[K]):
     '''Matrix class'''
     def __init__(self, value:list[list[K]]):
-        #throw error if elements in matrix is not even
+        #throw error if elements in matrix is not even or have inappropriate shape
         self._check_matrix(value)
         self._record_shape(value)
-        #insert argument into 1D array to ensure time complexity O(n) is met
-        self._value:list[K] = [element for sublist in value for element in sublist]
+        #insert argument into 1D column major array
+        self._value:list[K] = [value[j][i] for i, _ in enumerate(value[0]) \
+                               for j in range(len(value))]
 
     def _check_matrix(self, value:list[list[K]]):
-        '''check if matrix is of correct size'''
-        if len([element for sublist in value for element in sublist]) \
-                % 2 != 0 and len(value) != 1:
+        '''check argument values'''
+        #check if input of matrix is of correct format
+        if len(value) == 0 or any(not isinstance(sublist, list) for sublist in value) or \
+            any(len(sublist) == 0 for sublist in value) or \
+            any(len(sublist) != len(value[0]) for sublist in value):
             raise TypeError("Invalid Matrix Form")
 
     def _record_shape(self, value:list[list[K]]):
@@ -38,8 +43,7 @@ class Matrix(Generic[K]):
         #calculate column size = total element/row. Use integer division //
         column_size = self.size()[1] // self.size()[0]
         for i in range(self.size()[0]):
-            print([self._value[element] for element in \
-                   range(i * column_size, (i + 1) * column_size)])
+            print([self.value[j] for j in range(i, len(self.value), column_size)])
 
     def add(self, v:'Matrix[K]'):
         '''Add operation for matrix'''
@@ -62,3 +66,11 @@ class Matrix(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         for i, _ in enumerate(self.value):
             self.value[i] *= a
+
+def reshape_vector_to_matrix(v:list[Vector[K]]) -> Matrix[K]:
+    '''reshape a vector(list of vector) into matrix'''
+    if not isinstance(v, list) or len(v) == 0 or \
+        any(not isinstance(vector, Vector) for vector in v) \
+        or any(vector.size() != v[0].size() for vector in v):
+        raise ValueError("Vector argument incorrect")
+    return Matrix([[v[j].value[i] for j,_ in enumerate(v)] for i in range(v[0].size())])

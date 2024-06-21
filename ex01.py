@@ -1,7 +1,10 @@
 '''exercise 01 linear combination function and main function to run test'''
 
+from typing import TypeVar
 from vector import Vector
-from generics import K
+from matrix import Matrix
+
+K = TypeVar("K", int, float)
 
 def fma(a:K, b:K, c:K = 0):
     '''custom fma'''
@@ -30,11 +33,15 @@ def linear_combination(u: list[Vector[K]], coefs: list[K]) ->Vector[K]:
 def main():
     '''main test function'''
     print("Results for exercise 01")
-    e1:Vector[float] = Vector([1.,0.,0.])
-    e2:Vector[float] = Vector([0.,1.,0.])
-    e3:Vector[float] = Vector([0.,0.,1.])
-    v1:Vector[float] = Vector([1., 2., 3.])
-    v2:Vector[float] = Vector([0., 10., -100.])
+    try:
+        e1:Vector[float] = Vector([1.,0.,0.])
+        e2:Vector[float] = Vector([0.,1.,0.])
+        e3:Vector[float] = Vector([0.,0.,1.])
+        v1:Vector[float] = Vector([1., 2., 3.])
+        v2:Vector[float] = Vector([0., 10., -100.])
+    except (ValueError, TypeError) as e:
+        print(f"error occured: {e}")
+        return
     try:
         linear_combination([e1, e2, e3],[10.,-2., 0.5]).print_vector()
     except ValueError as e:
