@@ -18,10 +18,11 @@ class Matrix(Generic[K]):
 
     def _check_matrix(self, value:list[list[K]]):
         '''check argument values'''
-        #check if input of matrix is of correct format
+        #check if input of matrix is of correct format(empty list, )
         if len(value) == 0 or any(not isinstance(sublist, list) for sublist in value) or \
             any(len(sublist) == 0 for sublist in value) or \
-            any(len(sublist) != len(value[0]) for sublist in value):
+            any(len(sublist) != len(value[0]) for sublist in value): #or \
+            # any(not isinstance(element, type(sublist[0])) for sublist in value for element in sublist):
             raise TypeError("Invalid Matrix Form")
 
     def _record_shape(self, value:list[list[K]]):
@@ -50,6 +51,8 @@ class Matrix(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         if self.size() != v.size():
             raise TypeError("matrix not of same size")
+        if not isinstance(self.value[0], type(v.value[0])):
+            raise TypeError("matrix not of same type")
         for i, _ in enumerate(self.value):
             self.value[i] += v.value[i]
 
@@ -58,6 +61,8 @@ class Matrix(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         if self.size() != v.size():
             raise TypeError("matrix not of same size")
+        if not isinstance(self.value[0], type(v.value[0])):
+            raise TypeError("matrix not of same type")
         for i, _ in enumerate(self.value):
             self.value[i] -= v.value[i]
 

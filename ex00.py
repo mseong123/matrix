@@ -7,7 +7,7 @@ from matrix import reshape_vector_to_matrix
 def main():
     '''Test case for exercise 00'''
     print("Results for exercise 00")
-    print("Vector")
+    print("Vector operations")
     u:Vector[float] = Vector([2., 3.])
     v:Vector[float] = Vector([5., 7.])
     a:Vector[float] = Vector([2., 3.])
@@ -26,7 +26,7 @@ def main():
     c.scl(2.0)
     c.print_vector()
     print("")
-    print("Matrix")
+    print("Matrix operations")
     try:
         m:Matrix[float] = Matrix([
             [1.,2.],
@@ -42,7 +42,7 @@ def main():
         ])
         p:Matrix[float] = Matrix([
             [7.,4.],
-            [-2.,-2.]
+            [-2.,2.]
         ])
         q:Matrix[float] = Matrix([
             [1.,2.],

@@ -10,8 +10,12 @@ class Vector(Generic[K]):
     '''Vector class''' 
     def __init__(self, value:list[K]):
         '''store value in 2d array due to print format'''
+        #error check if not empty argument
         if len(value) == 0:
             raise ValueError("Empty list in Vector initialisation")
+        #error check if elements are of same type
+        if any(not isinstance(element, type(value[0])) for element in value):
+            raise ValueError("Elements in argument are not of same type")
         self._value:list[K] = []
         for i in value:
             self._value.append(i)
@@ -45,6 +49,8 @@ class Vector(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         if self.size() != v.size():
             raise TypeError("vector not of same size")
+        if not isinstance(self.value[0], type(v.value[0])):
+            raise TypeError("vector not of same type")
         for i in range(self.size()):
             self._value[i] += v.value[i]
 
@@ -53,6 +59,8 @@ class Vector(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         if self.size() != v.size():
             raise TypeError("vector not of same size")
+        if not isinstance(self.value[0], type(v.value[0])):
+            raise TypeError("vector not of same type")
         for i in range(self.size()):
             self._value[i] -= v.value[i]
 
@@ -61,4 +69,5 @@ class Vector(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         for i in range(self.size()):
             self._value[i] *= a
+
 
