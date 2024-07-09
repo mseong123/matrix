@@ -73,9 +73,9 @@ class Vector(Generic[K]):
     def dot(self, v:'Vector[K]') -> K:
         '''dot product'''
         if self.size() != v.size():
-            raise TypeError("vector not of same size")
+            raise TypeError("vector not of same size") 
         if not isinstance(self.value[0], type(v.value[0])):
-            raise TypeError("vector not of same type")
+            raise TypeError("vector values not of same type")
         result:K = 0
         #O(n) time complexity and O(1) space complexity
         for i in range(self.size()):
@@ -112,8 +112,8 @@ class Vector(Generic[K]):
         component of the vector. It is useful in various contexts where you want 
         to measure the "size" of the vector based on its largest element."""
         #O(n) time complexity and O(1) space complexity
-        result:float = [-value if value < 0 else value for value in self.value]
-        return max(result)
+        result:list[K] = [-value if value < 0 else value for value in self.value]
+        return float(max(result))
 
 
 
