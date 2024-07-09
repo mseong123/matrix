@@ -2,7 +2,6 @@
 
 from vector import Vector
 from matrix import Matrix
-from matrix import reshape_vector_to_matrix
 
 def main():
     '''Test case for exercise 00'''

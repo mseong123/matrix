@@ -1,4 +1,4 @@
-'''linear interpolation and main function to run test'''
+'''ex02 - linear interpolation and main function to run test'''
 
 from typing import TypeVar, cast, Union, Type
 from matrix import Matrix
