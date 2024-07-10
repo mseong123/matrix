@@ -14,6 +14,7 @@ def main():
         d:Vector[float] = Vector([3., 2.])
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
+        return
     try:
         print(u.dot(v))
         print(a.dot(b))

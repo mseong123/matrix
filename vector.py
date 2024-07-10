@@ -73,7 +73,7 @@ class Vector(Generic[K]):
     def dot(self, v:'Vector[K]') -> K:
         '''dot product'''
         if self.size() != v.size():
-            raise TypeError("vector not of same size") 
+            raise TypeError("vector not of same size")
         if not isinstance(self.value[0], type(v.value[0])):
             raise TypeError("vector values not of same type")
         result:K = 0
@@ -114,9 +114,3 @@ class Vector(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         result:list[K] = [-value if value < 0 else value for value in self.value]
         return float(max(result))
-
-
-
-
-
-    

@@ -11,6 +11,7 @@ def main():
         w:Vector[float] = Vector([-1., -2.])
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
+        return
     try:
         print(u.norm_1(), u.norm(), u.norm_inf())
         print(v.norm_1(), v.norm(), v.norm_inf())

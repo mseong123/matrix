@@ -1,7 +1,6 @@
 '''ex05 - cosine angle and main function to run test'''
 
 from typing import TypeVar
-from matrix import Matrix
 from vector import Vector
 
 K = TypeVar("K", int, float)
@@ -13,7 +12,7 @@ def angle_cos(u: Vector[K], v:Vector[K]) -> float:
     # error handling for generic type done in dot method in vector class
     if all(value== 0 for value in u.value) or all(value == 0 for value in v.value):
         raise ValueError("vector arguments are zero")
-    return u.dot(v) / (u.norm() * v.norm()) 
+    return u.dot(v) / (u.norm() * v.norm())
 
 
 
@@ -33,6 +32,7 @@ def main():
         h:Vector[float] = Vector([4., 5., 6.])
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
+        return
     try:
         print(angle_cos(u, v))
         print(angle_cos(a, b))
