@@ -22,7 +22,8 @@ class Matrix(Generic[K]):
         if len(value) == 0 or any(not isinstance(sublist, list) for sublist in value) or \
             any(len(sublist) == 0 for sublist in value) or \
             any(len(sublist) != len(value[0]) for sublist in value): #or \
-            # any(not isinstance(element, type(sublist[0])) for sublist in value for element in sublist):
+            # any(not isinstance(element, type(sublist[0])) for sublist
+            # in value for element in sublist):
             raise TypeError("Invalid Matrix Form")
 
     def _record_shape(self, value:list[list[K]]):
@@ -71,6 +72,45 @@ class Matrix(Generic[K]):
         #O(n) time complexity and O(1) space complexity
         for i, _ in enumerate(self.value):
             self.value[i] *= a
+
+    def mul_vec(self, vec:Vector[K]) -> Vector[K]:
+        '''Matrix multiplication with vector'''
+        column:int = int(self._shape[1] / self._shape[0])
+        if vec.size() != column:
+            raise ValueError("Argument vector size incorrect")
+        # space complexity of 0(n),n = size of vector which is no. of row of linear map
+        result:list[K] = []
+        # time complexity of row of matrix (n) x column of matrix (m)
+        # (j below with step row) due to column major storage format
+        for i in range(self.size()[0]):
+            temp_result:K = 0
+            for j in range(i, self.size()[1], self.size()[0]):
+                temp_result += self.value[j] * vec.value[j // self.size()[0]]
+            result.append(temp_result)
+        return Vector(result)
+
+    def mul_mat(self, mat: 'Matrix[K]') -> 'Matrix[K]':
+        '''Matrix multiplication with vector'''
+        column:int = int(self._shape[1] / self._shape[0])
+        if mat.size()[0] != column:
+            raise ValueError("Argument matrix size incorrect")
+        # space complexity m x p
+        result:list[K] = []
+        # time complexity m x p x n
+        # column of mat (p)
+        for i in range(mat.size()[1] // mat.size()[0]):
+            # row of self (m)
+            for j in range(self.size()[0]):
+                temp_result:K = 0
+                # column of self and row of mat (n)
+                for k in range(j, self.size()[1], self.size()[0]):
+                    temp_result += self.value[k] * \
+                        mat.value[(k // self.size()[0])+ (i * mat.size()[0])]
+                result.append(temp_result)
+        self._shape = (self.size()[0], len(result))
+        self._value = result
+        return self
+
 
 def reshape_vector_to_matrix(v:list[Vector[K]]) -> Matrix[K]:
     '''reshape a vector(list of vector) into matrix'''

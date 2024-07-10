@@ -13,6 +13,7 @@ def cross_product(u:Vector[K], v:Vector[K]) -> Vector[K]:
     if u.size() != 3 or v.size() != 3:
         raise ValueError("vector arguments size are not of 3 dimensions")
     result:list[K] = []
+    # Time complexity O(n) space complexity of O(n)
     for i in range(3):
         if i == 0:
             result.append((u.value[1] * v.value[2]) - (u.value[2] * v.value[1]))

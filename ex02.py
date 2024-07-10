@@ -1,6 +1,6 @@
 '''ex02 - linear interpolation and main function to run test'''
 
-from typing import TypeVar, cast, Union, Type
+from typing import TypeVar, cast
 from matrix import Matrix
 from vector import Vector
 
@@ -22,7 +22,7 @@ def lerp(u:V, v:V, t:float) -> V:
         #time complexity of vector size O(n)
         for i, _ in enumerate(u.value):
             #constant space complexity, results stored in first input, O(1)
-            u.value[i] = (u.value[i] * (1-t)) + ((v.value[i] * t)) 
+            u.value[i] = (u.value[i] * (1-t)) + ((v.value[i] * t))
     elif isinstance(u, (int, float)) and isinstance(v, (int, float)):
         return_value = cast(V, (u * (1 - t)) + (v * t))
     return return_value

@@ -10,6 +10,7 @@ def angle_cos(u: Vector[K], v:Vector[K]) -> float:
     if not isinstance(u, Vector) or not isinstance(v, Vector):
         raise TypeError("argument is not of Vector type")
     # error handling for generic type done in dot method in vector class
+    # Time complexity of O(n) based on individual methods below and n/a space complexity
     if all(value== 0 for value in u.value) or all(value == 0 for value in v.value):
         raise ValueError("vector arguments are zero")
     return u.dot(v) / (u.norm() * v.norm())
