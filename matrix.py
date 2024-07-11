@@ -42,10 +42,8 @@ class Matrix(Generic[K]):
 
     def print_matrix(self):
         '''Utility function. Print matrix values'''
-        #calculate column size = total element/row. Use integer division //
-        column_size = self.size()[1] // self.size()[0]
         for i in range(self.size()[0]):
-            print([self.value[j] for j in range(i, len(self.value), column_size)])
+            print([self.value[j] for j in range(i, len(self.value), self.size()[0])])
 
     def add(self, v:'Matrix[K]'):
         '''Add operation for matrix'''
@@ -111,6 +109,15 @@ class Matrix(Generic[K]):
         self._value = result
         return self
 
+    def trace(self) -> K:
+        '''return trace of matrix'''
+        column:list[K] = self.size()[1] // self.size()[0]
+        if column != self.size()[0]:
+            raise TypeError("Can't return trace of a non-square matrix")
+        result:K = 0
+        for i in range(column):
+            result += self.value[(i * self.size()[0]) + i]
+        return result
 
 def reshape_vector_to_matrix(v:list[Vector[K]]) -> Matrix[K]:
     '''reshape a vector(list of vector) into matrix'''

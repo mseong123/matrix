@@ -20,8 +20,8 @@ def main():
         j:Matrix[float] = Matrix([[2., 1.], [4., 2.]])
         g:Matrix[float] = Matrix([[3., -5.], [6., 8.]])
         h:Matrix[float] = Matrix([[2., 1.], [4., 2.]])
-        k:Matrix[float] = Matrix([[2., -5.], [1., 8.],[3.,2.]])
-        l:Matrix[float] = Matrix([[2., 1.,5.], [4., 2.,3.]])
+        k:Matrix[float] = Matrix([[2., -5.,3.],[5.,6.,4.],[1.,2.,3.]])
+        l:Matrix[float] = Matrix([[2.], [4.],[5.]])
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
         return
