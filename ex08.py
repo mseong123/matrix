@@ -30,13 +30,6 @@ def main():
         print(v.trace())
         print("")
         print(w.trace())
-        print("eval sheet test")
-        print(u.trace())
-        print("")
-        print(v.trace())
-        print("")
-        print(w.trace())
-        print("")
         print("eval test")
         print(a.trace())
         print("")
@@ -45,7 +38,7 @@ def main():
         print(c.trace())
         print("")
         print(d.trace())
-		
+
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
         return

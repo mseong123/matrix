@@ -73,7 +73,7 @@ class Matrix(Generic[K]):
 
     def mul_vec(self, vec:Vector[K]) -> Vector[K]:
         '''Matrix multiplication with vector'''
-        column:int = int(self._shape[1] / self._shape[0])
+        column:int = self._shape[1] // self._shape[0]
         if vec.size() != column:
             raise ValueError("Argument vector size incorrect")
         # space complexity of 0(n),n = size of vector which is no. of row of linear map
@@ -89,7 +89,7 @@ class Matrix(Generic[K]):
 
     def mul_mat(self, mat: 'Matrix[K]') -> 'Matrix[K]':
         '''Matrix multiplication with vector'''
-        column:int = int(self._shape[1] / self._shape[0])
+        column:int = self._shape[1] // self._shape[0]
         if mat.size()[0] != column:
             raise ValueError("Argument matrix size incorrect")
         # space complexity m x p
@@ -111,13 +111,30 @@ class Matrix(Generic[K]):
 
     def trace(self) -> K:
         '''return trace of matrix'''
-        column:list[K] = self.size()[1] // self.size()[0]
+        column:int = self.size()[1] // self.size()[0]
         if column != self.size()[0]:
             raise TypeError("Can't return trace of a non-square matrix")
         result:K = 0
+        # time complexity of O(n) column
         for i in range(column):
             result += self.value[(i * self.size()[0]) + i]
         return result
+
+    def transpose(self) -> 'Matrix[K]':
+        '''returns transpose of matrix'''
+        outer_list:list[list[K]] = []
+        column:int = self.size()[1] // self.size()[0]
+        # time complexity O(nm) and space complexity (assignment of values) 0(nm)
+        for i in range(column):
+            inner_list:list[K] = []
+            for j in range(self.size()[0]):
+                inner_list.append(self.value[(i * self.size()[0]) + j])
+            outer_list.append(inner_list)
+        return Matrix(outer_list)
+
+
+
+
 
 def reshape_vector_to_matrix(v:list[Vector[K]]) -> Matrix[K]:
     '''reshape a vector(list of vector) into matrix'''
