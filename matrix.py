@@ -132,6 +132,29 @@ class Matrix(Generic[K]):
             outer_list.append(inner_list)
         return Matrix(outer_list)
 
+    def row_echelon(self) -> 'Matrix[K]':
+        '''return reduced row echelon form'''
+        # check for any null row and move to bottom of matrix
+        column:int = self.size()[1] // self.size()[0]
+        def replace_row(temp, j):
+            for i in range(column):
+                self.value[i * self.size()[0] + j] = self.value[i * self.size()[0] + j +1]
+                self.value[i * self.size()[0] + j + 1] = temp[i]
+        for i in range(column):
+            temp:list[K] = []
+            for j in range(self.size()[0] - 1):
+                if self.value[i * self.size()[0] + j] == 0 and self.value[i * self.size()[0] + j + 1] != 0:
+                    if i == 0 or (i > 0 and all(self.value[k * self.size()[0] + j] == 0 for k in range(i) )):
+                        temp = [self.value[m] for m in range(j, self.size()[1], self.size()[0])]
+                        replace_row(temp,j) 
+        self.print_matrix()
+            
+
+                
+
+
+
+
 
 
 
