@@ -10,7 +10,7 @@ def main():
     print("Results for exercise 10")
     try:
         # own test
-        u:Matrix[float] = Matrix([[0., 1,0,0],[1,0,0,1]])
+        u:Matrix[float] = Matrix([[0., 0,5,2],[8,5,4,1]])
         # v:Matrix[float] = Matrix([[2., -5., 0.], [4., 3., 7.], [-2., 3., 4.]])
         # w:Matrix[float] = Matrix([[-2., -8., 4., 5.],[1., -23., 4.,5.], [0., 6., 4.,5.]])
         # evalsheet pdf

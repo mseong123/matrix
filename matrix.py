@@ -140,14 +140,63 @@ class Matrix(Generic[K]):
             for i in range(column):
                 self.value[i * self.size()[0] + j] = self.value[i * self.size()[0] + j +1]
                 self.value[i * self.size()[0] + j + 1] = temp[i]
+        def normalize_row(i):
+            result:list[K] = []
+            column:Any = None
+            for j in range(i, self.size()[1], self.size()[0]):
+                denom:K = self.value[j]
+                if denom == 0:
+                    result.append(denom) 
+                    continue
+                elif denom == 1:
+                    if column is None:
+                        column = len(result)
+                    result.append(denom)
+                    continue
+                elif denom != 1:
+                    for k in range(j, self.size()[1], self.size()[0]):
+                        self.value[k] /= denom
+                        if column is None:
+                            column = len(result)
+                        result.append(self.value[k])
+                    break
+            return (column, result)
+
+        def pivot(row, column, denom):
+            deduct:int = 0
+            count:int = column
+            for j in range(0, self.size()[0]):
+                if row == j:
+                    continue
+                elif self.value[column * self.size()[0] + j] == 0:
+                    continue
+                else:
+                    for k in range(count * self.size()[0] + j, self.size()[1], self.size()[0]):
+                        deduct = self.value[count * self.size()[0] + j] * denom[count]
+                        self.value[count * self.size()[0] + j] -= deduct
+                        count += 1
+                    # self.value[k] - deduct
+                        
+                        
+                
+
         for i in range(column):
             temp:list[K] = []
             for j in range(self.size()[0] - 1):
                 if self.value[i * self.size()[0] + j] == 0 and self.value[i * self.size()[0] + j + 1] != 0:
                     if i == 0 or (i > 0 and all(self.value[k * self.size()[0] + j] == 0 for k in range(i) )):
                         temp = [self.value[m] for m in range(j, self.size()[1], self.size()[0])]
-                        replace_row(temp,j) 
+                        replace_row(temp,j)
+        # reduced row echelon form calculation
+        # time complexity m (row)
+        for row in range(self.size()[0]):
+            # normalize row
+            column, result = normalize_row(row)
+            # set values below and above pivot to zero
+            # print(result, column, row)
+            pivot(row, column, result)
         self.print_matrix()
+            
             
 
                 
