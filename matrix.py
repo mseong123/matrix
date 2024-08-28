@@ -141,36 +141,40 @@ class Matrix(Generic[K]):
                 self.value[i * self.size()[0] + j] = self.value[i * self.size()[0] + j +1]
                 self.value[i * self.size()[0] + j + 1] = temp[i]
         def normalize_row(row):
-            result:list[K] = []
+            normalized:list[K] = []
             column:Any = None
             for j in range(row, self.size()[1], self.size()[0]):
                 denom:K = self.value[j]
                 if denom == 0:
-                    result.append(denom) 
+                    normalized.append(denom) 
                     continue
                 else:
                     for k in range(j, self.size()[1], self.size()[0]):
                         self.value[k] /= denom
                         if column is None:
-                            column = len(result)
-                        result.append(self.value[k])
+                            column = len(normalized)
+                        normalized.append(self.value[k])
                     break
-            return (column, result)
+            return (column, normalized)
 
-        def pivot(row, column, denom):
+        def pivot(row, column, normalized):
             deduct:int = 0
-            count:int = column
+            
             for j in range(0, self.size()[0]):
+                # don't do anything if same row as normalized
                 if row == j:
                     continue
+                # if column value above pivot and below is zero, don't do anything
                 elif self.value[column * self.size()[0] + j] == 0:
                     continue
+                # else iterate through remaining columns in the row and deduct
                 else:
-                    for k in range(count * self.size()[0] + j, self.size()[1], self.size()[0]):
-                        deduct = self.value[count * self.size()[0] + j] * denom[count]
-                        self.value[count * self.size()[0] + j] -= deduct
+                    count:int = column
+                    deduct = self.value[column * self.size()[0] + j] * normalized[column]
+                    for k in range(column * self.size()[0] + j, self.size()[1], self.size()[0]):
+                        self.value[k] -= deduct * normalized[count]
                         count += 1
-                    # self.value[k] - deduct
+            
                         
                         
                 
@@ -186,13 +190,11 @@ class Matrix(Generic[K]):
         # time complexity m (row)
         for row in range(self.size()[0]):
             # normalize row
-            column, result = normalize_row(row)
-            print(column)
-            print(result)
+            column, normalized = normalize_row(row)
             # set values below and above pivot to zero
-            # print(result, column, row)
-            # pivot(row, column, result)
-        # self.print_matrix()
+            if column is not None:
+                pivot(row, column, normalized)
+        self.print_matrix()
             
             
 
