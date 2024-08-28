@@ -140,20 +140,15 @@ class Matrix(Generic[K]):
             for i in range(column):
                 self.value[i * self.size()[0] + j] = self.value[i * self.size()[0] + j +1]
                 self.value[i * self.size()[0] + j + 1] = temp[i]
-        def normalize_row(i):
+        def normalize_row(row):
             result:list[K] = []
             column:Any = None
-            for j in range(i, self.size()[1], self.size()[0]):
+            for j in range(row, self.size()[1], self.size()[0]):
                 denom:K = self.value[j]
                 if denom == 0:
                     result.append(denom) 
                     continue
-                elif denom == 1:
-                    if column is None:
-                        column = len(result)
-                    result.append(denom)
-                    continue
-                elif denom != 1:
+                else:
                     for k in range(j, self.size()[1], self.size()[0]):
                         self.value[k] /= denom
                         if column is None:
@@ -192,10 +187,12 @@ class Matrix(Generic[K]):
         for row in range(self.size()[0]):
             # normalize row
             column, result = normalize_row(row)
+            print(column)
+            print(result)
             # set values below and above pivot to zero
             # print(result, column, row)
-            pivot(row, column, result)
-        self.print_matrix()
+            # pivot(row, column, result)
+        # self.print_matrix()
             
             
 
