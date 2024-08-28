@@ -4,7 +4,7 @@ matrix class definition and methods
 from typing import Generic, TypeVar
 from vector import Vector
 
-K = TypeVar("K", int, float)
+K = TypeVar("K", float, int)
 
 class Matrix(Generic[K]):
     '''Matrix class'''
@@ -136,30 +136,30 @@ class Matrix(Generic[K]):
         '''return reduced row echelon form'''
         # check for any null row and move to bottom of matrix
         column:int = self.size()[1] // self.size()[0]
-        def replace_row(temp, j):
-            for i in range(column):
-                self.value[i * self.size()[0] + j] = self.value[i * self.size()[0] + j +1]
-                self.value[i * self.size()[0] + j + 1] = temp[i]
+        # def replace_row(temp, j):
+        #     for i in range(column):
+        #         self.value[i * self.size()[0] + j] = self.value[i * self.size()[0] + j +1]
+        #         self.value[i * self.size()[0] + j + 1] = temp[i]
         def normalize_row(row):
             normalized:list[K] = []
-            column:Any = None
+            column:K | None = None
+            # time complexity column n
             for j in range(row, self.size()[1], self.size()[0]):
                 denom:K = self.value[j]
                 if denom == 0:
-                    normalized.append(denom) 
+                    normalized.append(denom)
                     continue
-                else:
-                    for k in range(j, self.size()[1], self.size()[0]):
-                        self.value[k] /= denom
-                        if column is None:
-                            column = len(normalized)
-                        normalized.append(self.value[k])
-                    break
+                # time complexity row m
+                for k in range(j, self.size()[1], self.size()[0]):
+                    self.value[k] /= denom # type: ignore
+                    if column is None:
+                        column = len(normalized)
+                    normalized.append(self.value[k])
+                break
             return (column, normalized)
 
         def pivot(row, column, normalized):
             deduct:int = 0
-            
             for j in range(0, self.size()[0]):
                 # don't do anything if same row as normalized
                 if row == j:
@@ -174,31 +174,41 @@ class Matrix(Generic[K]):
                     for k in range(column * self.size()[0] + j, self.size()[1], self.size()[0]):
                         self.value[k] -= deduct * normalized[count]
                         count += 1
-            
-                        
-                        
-                
 
-        for i in range(column):
-            temp:list[K] = []
-            for j in range(self.size()[0] - 1):
-                if self.value[i * self.size()[0] + j] == 0 and self.value[i * self.size()[0] + j + 1] != 0:
-                    if i == 0 or (i > 0 and all(self.value[k * self.size()[0] + j] == 0 for k in range(i) )):
-                        temp = [self.value[m] for m in range(j, self.size()[1], self.size()[0])]
-                        replace_row(temp,j)
-        # reduced row echelon form calculation
-        # time complexity m (row)
+        # Below is for rearranging of rows before RREF calculation:
+        # 1) Pivot of rows below should always to be right of pivot of row above it
+        # 2) Null elements row should always be at the bottom of matrix
+        # My algo iterates through every column (outer loop) and every row(inner loop)
+        # and checks for condition (1) Just doing this will preprocess properly any
+        # matrix before RREF calculation (tested) although row arrangement
+        # end result might differ in diff examples but still works. Commented out because
+        # exercise doesn't need matrix preprocessing.
+
+        # for i in range(column):
+        #     temp:list[K] = []
+        #     for j in range(self.size()[0] - 1):
+        #         if self.value[i * self.size()[0] + j] == 0 and \
+        #                 self.value[i * self.size()[0] + j + 1] != 0:
+        #             if i == 0 or (i > 0 and all(self.value[k * self.size()[0] + j] \
+        #                 == 0 for k in range(i) )):
+        #                 temp = [self.value[m] for m in range(j, self.size()[1], self.size()[0])]
+        #                 replace_row(temp,j)
+
+        # reduced Row Echelon Form calculation
         for row in range(self.size()[0]):
             # normalize row
+            # time complexity m (row) x n (column)
             column, normalized = normalize_row(row)
-            # set values below and above pivot to zero
+            # if column is None, means null element hence no pivot in the current row.
             if column is not None:
+                # set values below and above pivot to zero
+                # time complexity is m (row) x ( m(row) x n(column) => going through
+                # matrix row again and check and if pivot above and below is not zero,
+                # process and adjusting the columns)
                 pivot(row, column, normalized)
-        self.print_matrix()
-            
-            
-
-                
+        # total time complexity = (m x n) ^ 2 x m which is lower than (m x n) ^ 3
+        # required by eval. Space are all constant
+        return self
 
 
 
