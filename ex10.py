@@ -26,7 +26,7 @@ def main():
         print(f"Error occured: {e}")
         return
     try:
-        print("own test")
+        print("pdf test")
         print("")
         u.row_echelon().print_matrix()
         print("")

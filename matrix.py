@@ -133,7 +133,7 @@ class Matrix(Generic[K]):
         return Matrix(outer_list)
 
     def row_echelon(self) -> 'Matrix[K]':
-        '''return reduced row echelon form'''
+        '''return matrix converted to reduced row echelon form'''
         # check for any null row and move to bottom of matrix
         column:int = self.size()[1] // self.size()[0]
         # def replace_row(temp, j):
@@ -209,6 +209,37 @@ class Matrix(Generic[K]):
         # total time complexity = (m x n) ^ 2 x m which is lower than (m x n) ^ 3
         # required by eval. Space are all constant
         return self
+
+    def determinant(self) -> K:
+        """return determinant of matrix (scalar value)"""
+        # check if non square matrix
+        column:int = self.size()[1] // self.size()[0]
+
+        if column != self.size()[0]:
+            raise TypeError("Can't return determinant of a non-square matrix")
+        for i in range(column):
+            for j in range(self.size()[0]):
+                if j == i:
+                    placeholder_row:int = j
+                if j > i and self.value[i * self.size()[0] + j] != 0:
+                    deduct:K = self.value[i * self.size()[0] + j] / self.value[i * self.size()[0] + placeholder_row]
+                    count: int = 0
+                    for k in range(j, self.size()[1], self.size()[0]):
+                        
+                        print("ms", k)
+                        print("ms1",  deduct * self.value[count * self.size()[0] + placeholder_row])
+                        self.value[k] -= deduct * self.value[count * self.size()[0] + placeholder_row]
+                        self.print_matrix()
+                        count+=1
+        result:K | None = None
+        for i in range(column):
+            for j in range(self.size()[0]):
+                if i == j:
+                    if result is None:
+                        result = self.value[i * self.size()[0] + j]
+                    else:
+                        result *= self.value[i * self.size()[0] + j]
+        return result
 
 
 
