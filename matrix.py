@@ -215,32 +215,59 @@ class Matrix(Generic[K]):
         # check if non square matrix
         column:int = self.size()[1] // self.size()[0]
         row_swap:int = 1
+        row_swap_index:[K] = [] 
 
         if column != self.size()[0]:
             raise TypeError("Can't return determinant of a non-square matrix")
         # I use LU decomposition which is efficient and more stable for larger matrices.
-        # moving row with pivot which is zero to end of line. constant hence not included in time complexity
-        def replace_row(last, j):
+        
+        # Create a Lower triangular Identity Matrix.
+        # Space complexity m x n
+        # Time complexity m x n
+        lower_triangular:[K] = []
+        for i in range(column):
+            for j in range(self.size()[0]): 
+                if (i * self.size()[0] + j) % (self.size()[0]+1) == 0:
+                    lower_triangular.append(1)
+                else:
+                    lower_triangular.append(0)
+
+        # function to swap row with pivot which is zero to last row for both Upper and Lower Triangular Matrix. 
+        # constant hence not included in time complexity
+        def swap_row(last, j):
             nonlocal row_swap
+            nonlocal row_swap_index
             for i in range(column):
                 self.value[i * self.size()[0] + self.size()[0] -1] = self.value[i * self.size()[0] + j]
                 self.value[i * self.size()[0] + j] = last[i]
             row_swap *= -1
+            row_swap_index.append(j)
+        def swap_back(last, j):
+            nonlocal row_swap_index
+            for i in range(column):
+                self.value[i * self.size()[0] + self.size()[0] -1] = self.value[i * self.size()[0] + j]
+                self.value[i * self.size()[0] + j] = last[i]
+            row_swap_index = row_swap_index[:len(row_swap_index) - 1]
         # row operations below pivot to get upper triangular Matrix. time complexity m x n.
         for i in range(column):
             for j in range(self.size()[0]):
                 if j == i and self.value[i * self.size()[0] + j] != 0:
                     placeholder_row:int = j
-                elif j == i and self.value[i * self.size()[0] + j] == 0 and j != self.size()[0] - 1:
-                    last:list[K] = [self.value[k] for k in range(self.size()[0] - 1, self.size()[1], self.size()[0])]
-                    replace_row(last, j)
+                elif j == i and self.value[i * self.size()[0] + j] == 0:
+                    last_swap:list[K] = [self.value[k] for k in range(self.size()[0] - 1, self.size()[1], self.size()[0])]
+                    swap_row(last_swap, j)
                     break
                 if j > i and self.value[i * self.size()[0] + j] != 0:
+                    
                     deduct:K = self.value[i * self.size()[0] + j] / self.value[i * self.size()[0] + placeholder_row]
                     column: int = 0
                     for k in range(j, self.size()[1], self.size()[0]): 
                         self.value[k] -= deduct * self.value[column * self.size()[0] + placeholder_row]
                         column += 1
+                    lower_triangular[i * self.size()[0] + j] = deduct
+                
+        
+
         result:K | None = None
         # time complexity m x n, multiply diagonal rows in Upper Matrix
         for i in range(column):
@@ -250,7 +277,19 @@ class Matrix(Generic[K]):
                         result = self.value[i * self.size()[0] + j]
                     else:
                         result *= self.value[i * self.size()[0] + j]
-        return row_swap * result
+
+        if len(row_swap_index) > 0:
+            last_swap_back:list[K] = [self.value[k] for k in range(self.size()[0] - 1, self.size()[1], self.size()[0])]
+            self.print_matrix()
+            print("")
+            swap_back(last_swap_back, row_swap_index[len(row_swap_index) - 1])
+            self.print_matrix()
+            print("")
+
+
+        if result == 0:
+            return (lower_triangular, self.value, result)
+        return (lower_triangular, self.value, row_swap * result)
 
 def reshape_vector_to_matrix(v:list[Vector[K]]) -> Matrix[K]:
     '''reshape a vector(list of vector) into matrix'''
