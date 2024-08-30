@@ -215,7 +215,6 @@ class Matrix(Generic[K]):
         # check if non square matrix
         column:int = self.size()[1] // self.size()[0]
         row_swap:int = 1
-        row_swap_index:[K] = [] 
 
         if column != self.size()[0]:
             raise TypeError("Can't return determinant of a non-square matrix")
@@ -236,18 +235,11 @@ class Matrix(Generic[K]):
         # constant hence not included in time complexity
         def swap_row(last, j):
             nonlocal row_swap
-            nonlocal row_swap_index
             for i in range(column):
                 self.value[i * self.size()[0] + self.size()[0] -1] = self.value[i * self.size()[0] + j]
                 self.value[i * self.size()[0] + j] = last[i]
             row_swap *= -1
-            row_swap_index.append(j)
-        def swap_back(last, j):
-            nonlocal row_swap_index
-            for i in range(column):
-                self.value[i * self.size()[0] + self.size()[0] -1] = self.value[i * self.size()[0] + j]
-                self.value[i * self.size()[0] + j] = last[i]
-            row_swap_index = row_swap_index[:len(row_swap_index) - 1]
+        
         # row operations below pivot to get upper triangular Matrix. time complexity m x n.
         for i in range(column):
             for j in range(self.size()[0]):
@@ -277,15 +269,6 @@ class Matrix(Generic[K]):
                         result = self.value[i * self.size()[0] + j]
                     else:
                         result *= self.value[i * self.size()[0] + j]
-
-        if len(row_swap_index) > 0:
-            last_swap_back:list[K] = [self.value[k] for k in range(self.size()[0] - 1, self.size()[1], self.size()[0])]
-            self.print_matrix()
-            print("")
-            swap_back(last_swap_back, row_swap_index[len(row_swap_index) - 1])
-            self.print_matrix()
-            print("")
-
 
         if result == 0:
             return (lower_triangular, self.value, result)
