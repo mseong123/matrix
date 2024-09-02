@@ -36,6 +36,11 @@ class Matrix(Generic[K]):
         '''getter for self._value'''
         return self._value
 
+    @value.setter
+    def value(self, new_value):
+        '''setter for self._value'''
+        self._value = new_value
+
     def size(self) -> tuple[int, int]:
         '''Utility function. Returns size of matrix in form of tuple(row, element count)''' 
         return self._shape
@@ -254,12 +259,78 @@ class Matrix(Generic[K]):
                         result = self.value[i * self.size()[0] + j]
                     else:
                         result *= self.value[i * self.size()[0] + j]
+        # Total space complexity = constant
+        # Total time complexity = (m x n)^2
         if result == 0:
             return result
         else:
             return row_swap * cast(K,result)
 
-def reshape_vector_to_matrix(v:list[Vector[K]]) -> Matrix[K]:
+    def inverse(self) -> "Matrix[K]":
+        """return an inverse matrix. Use Gauss-Jordan elimination method"""
+        
+        # Check whether matrix is square and if determinant is zero throw error
+        # create a copy to store original matrix value before passing to inverse function
+        # space complexity = m x n
+        copy:list[K] = self.value.copy()
+        if self.determinant() == 0:
+            raise TypeError("Determinant is zero. No inverse possible.")
+        # Once check, assign value back
+        self.value = copy
+        # Use augmented matrix [A | I]. 
+        column:int = self.size()[1] // self.size()[0]
+        # create an identity matrix with same shape. 
+        # Time complexity m x n. 
+        # Space complexity m x n
+
+        identity:list[K] = []
+        for i in range(column):
+            for j in range(self.size()[0]):
+                if i == j:
+                    identity.append(1)
+                else:
+                    identity.append(0)
+        # Augmented matrix transformation for Lower triangular portion.
+        # Iterate through each row then each column and do 1) normalization and 
+        # 2) deduction for lower triangle portion up to diagonal line and apply the
+        # same for identity matrix
+        # time complexity m x n
+        for j in range(self.size()[0]):
+            # default value to normalize and deduct
+            deduct_normalize:K = 1
+            deduct:K | None = None
+            for i in range(column):
+                # for every column 1) deduct from appropriate column
+                if j > 0 and i < j and self.value[i * self.size()[0] + j] != 0:
+                    if deduct is None:
+                        deduct = self.value[i * self.size()[0] + j]
+                    print("first position",i * self.size()[0] + j )
+                    print("first position 1",i * self.size()[0] + i)
+                    self.value[i * self.size()[0] + j] -= deduct * self.value[i * self.size()[0] + i]
+                    identity[i * self.size()[0] + j] -= deduct * self.value[i * self.size()[0] + i]
+                    print("first")
+                    self.print_matrix()
+                    
+                
+                if self.value[j * self.size()[0] + j] != 1:
+                    deduct_normalize = self.value[j * self.size()[0] + j]
+                if i >= j:
+                    self.value[i * self.size()[0] + j] /= deduct_normalize 
+                    identity[i * self.size()[0] + j] /= deduct_normalize
+                    print("second")
+                    self.print_matrix()
+                # 2) normalize along diagonal
+                
+                    
+        self.print_matrix()
+
+                    
+
+
+
+
+
+def reshape_vector_to_matrix(v:list[Vector[K]]) -> "Matrix[K]":
     '''reshape a vector(list of vector) into matrix'''
     if not isinstance(v, list) or len(v) == 0 or \
         any(not isinstance(vector, Vector) for vector in v) \
