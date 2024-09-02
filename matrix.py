@@ -1,7 +1,7 @@
 '''
 matrix class definition and methods
 '''
-from typing import Generic, TypeVar
+from typing import Generic, TypeVar, cast
 from vector import Vector
 
 K = TypeVar("K", float, int)
@@ -218,20 +218,9 @@ class Matrix(Generic[K]):
 
         if column != self.size()[0]:
             raise TypeError("Can't return determinant of a non-square matrix")
-        # I use LU decomposition which is efficient and more stable for larger matrices.
-        
-        # Create a Lower triangular Identity Matrix.
-        # Space complexity m x n
-        # Time complexity m x n
-        lower_triangular:[K] = []
-        for i in range(column):
-            for j in range(self.size()[0]): 
-                if (i * self.size()[0] + j) % (self.size()[0]+1) == 0:
-                    lower_triangular.append(1)
-                else:
-                    lower_triangular.append(0)
+        # I use LU decomposition which is efficient and more stable for larger matrices. 
 
-        # function to swap row with pivot which is zero to last row for both Upper and Lower Triangular Matrix. 
+        # function to swap row with pivot which is zero to last row for both Upper Triangular Matrix. 
         # constant hence not included in time complexity
         def swap_row(last, j):
             nonlocal row_swap
@@ -249,16 +238,12 @@ class Matrix(Generic[K]):
                     last_swap:list[K] = [self.value[k] for k in range(self.size()[0] - 1, self.size()[1], self.size()[0])]
                     swap_row(last_swap, j)
                     break
-                if j > i and self.value[i * self.size()[0] + j] != 0:
-                    
-                    deduct:K = self.value[i * self.size()[0] + j] / self.value[i * self.size()[0] + placeholder_row]
-                    column: int = 0
+                if j > i and self.value[i * self.size()[0] + j] != 0: 
+                    deduct:K = self.value[i * self.size()[0] + j] / self.value[i * self.size()[0] + placeholder_row] # type: ignore
+                    column_placeholder: int = 0
                     for k in range(j, self.size()[1], self.size()[0]): 
-                        self.value[k] -= deduct * self.value[column * self.size()[0] + placeholder_row]
-                        column += 1
-                    lower_triangular[i * self.size()[0] + j] = deduct
-                
-        
+                        self.value[k] -= deduct * self.value[column_placeholder * self.size()[0] + placeholder_row]
+                        column_placeholder += 1
 
         result:K | None = None
         # time complexity m x n, multiply diagonal rows in Upper Matrix
@@ -269,10 +254,10 @@ class Matrix(Generic[K]):
                         result = self.value[i * self.size()[0] + j]
                     else:
                         result *= self.value[i * self.size()[0] + j]
-
         if result == 0:
-            return (lower_triangular, self.value, result)
-        return (lower_triangular, self.value, row_swap * result)
+            return result
+        else:
+            return row_swap * cast(K,result)
 
 def reshape_vector_to_matrix(v:list[Vector[K]]) -> Matrix[K]:
     '''reshape a vector(list of vector) into matrix'''
