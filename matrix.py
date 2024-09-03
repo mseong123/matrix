@@ -282,7 +282,6 @@ class Matrix(Generic[K]):
         # create an identity matrix with same shape. 
         # Time complexity m x n. 
         # Space complexity m x n
-
         identity:list[K] = []
         for i in range(column):
             for j in range(self.size()[0]):
@@ -295,11 +294,11 @@ class Matrix(Generic[K]):
         # 2) deduction for lower triangle portion up to diagonal line and apply the
         # same for identity matrix
         # time complexity m x n
-        for j in range(self.size()[0]):
+        for i in range(column):
             # default value to normalize and deduct
             deduct_normalize:K = 1
             deduct:K | None = None
-            for i in range(column):
+            for j in range(i * self.size()[0] + ):
                 # for every column 1) deduct from appropriate column
                 if j > 0 and i < j and self.value[i * self.size()[0] + j] != 0:
                     if deduct is None:
