@@ -10,8 +10,8 @@ def main():
     print("Results for exercise 12")
     try:
         # pdf test
-        u:Matrix[float] = Matrix([[2., -1.,3.], [-1., 1., 3.], [4.,3.,5.]])
-        # v:Matrix[float] = Matrix([[2., 0., 0.],[0., 2., 0.],[0., 0., 2.]])
+        u:Matrix[float] = Matrix([[1, 0.,0.], [0., 1., 0.], [0.,0.,1.]])
+        v:Matrix[float] = Matrix([[8,5,-2],[4., 7., 20.],[7,6,1]])
         # w:Matrix[float] = Matrix([[8., 5., -2.],[4., 7., 20.],[7., 6., 1.],])
         # x:Matrix[float] = Matrix([[ 8., 5., -2., 4.],[ 4., 2.5, 20., 4.],[ 8., 5., 1., 4.],[28., -4., 17., 1.]])
         # evalsheet pdf
@@ -30,7 +30,7 @@ def main():
     try:
         print("pdf test")
         print("")
-        u.inverse()
+        v.inverse()
         print("")
         # print(v.determinant())
         # print("")

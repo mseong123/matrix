@@ -280,8 +280,8 @@ class Matrix(Generic[K]):
         # Use augmented matrix [A | I]. 
         column:int = self.size()[1] // self.size()[0]
         # create an identity matrix with same shape. 
-        # Time complexity m x n. 
-        # Space complexity m x n
+        # Time complexity n^2. 
+        # Space complexity n^2.
         identity:list[K] = []
         for i in range(column):
             for j in range(self.size()[0]):
@@ -289,39 +289,75 @@ class Matrix(Generic[K]):
                     identity.append(1)
                 else:
                     identity.append(0)
-        # Augmented matrix transformation for Lower triangular portion.
-        # Iterate through each row then each column and do 1) normalization and 
-        # 2) deduction for lower triangle portion up to diagonal line and apply the
-        # same for identity matrix
-        # time complexity m x n
+        # 1) Augmented matrix transformation for Lower triangular portion.
+        # Iterate through n (outer loop) and n (inner loop). Then do row transformation
+        # for every row n. n^3 time complexity. 
         for i in range(column):
-            # default value to normalize and deduct
-            deduct_normalize:K = 1
-            deduct:K | None = None
-            for j in range(i * self.size()[0] + ):
-                # for every column 1) deduct from appropriate column
-                if j > 0 and i < j and self.value[i * self.size()[0] + j] != 0:
+            for j in range(self.size()[0]):
+                deduct:K | None = None
+                if i == j:
+                    pivot:int = j
+                if j != i and j > i and self.value[i * self.size()[0] + j] != 0:
+                    if deduct is None:
+                        deduct = self.value[i * self.size()[0] + j] / self.value[i * self.size()[0] + pivot] # type: ignore
+                    column_placeholder: int = 0
+                    # time complexity n (iterate through row j)
+                    for k in range(j, self.size()[1], self.size()[0]):
+                        self.value[k] -= deduct * self.value[column_placeholder * self.size()[0] + pivot]
+                        print("k", identity[k])
+                        identity[k] -= deduct * identity[column_placeholder * self.size()[0] + pivot]
+                        print("identity[k]", identity[k])
+                        column_placeholder += 1
+                    print("lower triangular")
+                    self.print_matrix()
+                    
+        # 2) Augmented matrix transformation for upper triangular portion.
+        # Iterate through n (outer loop) and n (inner loop). Then do row transformation
+        # for every row n. n^3 time complexity.
+        
+        for i in range(column -1, 0 -1, -1):
+            
+            for j in range(self.size()[0]-1, 0-1, -1):
+                deduct:K | None = None
+                if i == j:
+                    pivot:int = j
+                if j != i and j < i and self.value[i * self.size()[0] + j] != 0:
+                    if deduct is None:
+                        deduct = self.value[i * self.size()[0] + j] / self.value[i * self.size()[0] + pivot] # type: ignore
+                    column_placeholder: int = column - 1
+                    # time complexity n (iterate through row j)
+                    for k in range((column -1) * self.size()[0] + j, 0 - 1, -self.size()[0]):
+                        
+                        self.value[k] -= deduct * self.value[column_placeholder * self.size()[0] + pivot]
+                        identity[k] -= deduct * identity[column_placeholder * self.size()[0] + pivot]
+                        column_placeholder -= 1
+                    print("upper triangular")
+                    self.print_matrix()
+                    print("identity", identity)
+        # 3) Augmented matrix transformation for normalized pivot
+        # Iterate through n (outer loop) and n (inner loop) to find pivot. Then do row transformation
+        # for every row n. n^3 time complexity.
+        for i in range(column):
+            for j in range(self.size()[0]):
+                deduct:K | None = None
+                if i == j:
                     if deduct is None:
                         deduct = self.value[i * self.size()[0] + j]
-                    print("first position",i * self.size()[0] + j )
-                    print("first position 1",i * self.size()[0] + i)
-                    self.value[i * self.size()[0] + j] -= deduct * self.value[i * self.size()[0] + i]
-                    identity[i * self.size()[0] + j] -= deduct * self.value[i * self.size()[0] + i]
-                    print("first")
+                    column_placeholder: int = 0
+                    for k in range(j, self.size()[1], self.size()[0]):
+                        self.value[k] /= deduct 
+                        identity[k] /= deduct
+                        column_placeholder += 1
+                    print("normalized matrix")
                     self.print_matrix()
-                    
+        print("")
+        print("identity", identity)
+
                 
-                if self.value[j * self.size()[0] + j] != 1:
-                    deduct_normalize = self.value[j * self.size()[0] + j]
-                if i >= j:
-                    self.value[i * self.size()[0] + j] /= deduct_normalize 
-                    identity[i * self.size()[0] + j] /= deduct_normalize
-                    print("second")
-                    self.print_matrix()
-                # 2) normalize along diagonal
+        
                 
                     
-        self.print_matrix()
+        # self.print_matrix()
 
                     
 
