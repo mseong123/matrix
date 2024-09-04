@@ -360,7 +360,9 @@ class Matrix(Generic[K]):
         self.value = identity
         return self
 
-                    
+    def rank(self) -> int:
+        self.row_echelon()
+        self.print_matrix()
 
 
 
