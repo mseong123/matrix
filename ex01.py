@@ -18,11 +18,13 @@ def linear_combination(u: list[Vector[K]], coefs: list[K]) ->Vector[K]:
         raise ValueError("length of argument list is different")
     if not all(vector.size() == u[0].size() for vector in u):
         raise ValueError("Vector size different in argument list")
+    # space complexity is O(n) number of dimension of vectors
     result:list[K] = []
-    for i in range(u[0].size()):
-        #Space complexity of 0(1) hence not counted
+    for i in range(u[0].size()): 
         accumulator:K = 0
-        #time complexity of matrix ie a 2x2 matrix has 2x2 dimension hence O(n) is 4.
+        # n is list of coordinates of vector (m x n) where n is dimension and m is no. of vectors.
+        # time complexity is no in list of vectors (m) x operation of linear combination with coefficients for each vector n
+        # hence O(m x n)
         for j, _ in enumerate(u):
             accumulator = fma(u[len(u) - j - 1].value[i], \
                                 coefs[len(u) - j - 1], accumulator)
@@ -43,23 +45,23 @@ def main():
         print(f"error occured: {e}")
         return
     try:
+        print("pdf test")
         linear_combination([e1, e2, e3],[10.,-2., 0.5]).print_vector()
-    except ValueError as e:
-        print(f"Value Error: {e}")
-        return
-    except TypeError as e:
-        print(f"Type Error: {e}")
-        return
-    print("")
-    try:
+        print("")
         linear_combination([v1, v2],[10.,-2.]).print_vector()
-    except ValueError as e:
-        print(f"Value Error: {e}")
+        print("")
+        print("eval test")
+        linear_combination([Vector([-42.,42.])],[-1.]).print_vector()
+        print("")
+        linear_combination([Vector([-42.]), Vector([-42.]), Vector([-42.])],[-1., 1., 0.]).print_vector()
+        print("")
+        linear_combination([Vector([-42.,42.]), Vector([1.,3.]), Vector([10.,20.])],[1., -10., -1.]).print_vector()
+        print("")
+        linear_combination([Vector([-42.,100., -69.5]), Vector([1.,3.,5.])],[1., -10.]).print_vector()
+
+    except (ValueError, TypeError) as e:
+        print(f"error occured: {e}")
         return
-    except TypeError as e:
-        print(f"Type Error: {e}")
-        return
-    print("")
 
 if __name__ == "__main__":
     main()
