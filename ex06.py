@@ -27,6 +27,7 @@ def main():
     '''Test case for exercise 06'''
     print("Results for exercise 06")
     try:
+        # pdf test
         u:Vector[float] = Vector([0., 0., 1.])
         v:Vector[float] = Vector([1., 0., 0.])
         a:Vector[float] = Vector([1., 2., 3.])
@@ -37,15 +38,43 @@ def main():
         j:Vector[float] = Vector([4., 2.])
         g:Vector[float] = Vector([1., 2., 3.])
         h:Vector[float] = Vector([4., 5., 6.])
+        # eval test
+        k:Vector[float] = Vector([0., 0., 0.])
+        l:Vector[float] = Vector([0., 0., 0.])
+        m:Vector[float] = Vector([1., 0., 0.])
+        n:Vector[float] = Vector([0., 0., 0.])
+        o:Vector[float] = Vector([1., 0., 0.])
+        p:Vector[float] = Vector([0., 1., 0.])
+        q:Vector[float] = Vector([8., 7., -4.])
+        r:Vector[float] = Vector([3., 2., 1.])
+        s:Vector[float] = Vector([1., 1., 1.])
+        t:Vector[float] = Vector([0., 0., 0.])
+        w:Vector[float] = Vector([1., 1., 1.])
+        x:Vector[float] = Vector([1., 1., 1.])
+
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
         return
     try:
+        print("pdf test")
         cross_product(u, v).print_vector()
         print("")
         cross_product(a, b).print_vector()
         print("")
         cross_product(c, d).print_vector()
+        print("eval test")
+        cross_product(k, l).print_vector()
+        print("")
+        cross_product(m, n).print_vector()
+        print("")
+        cross_product(o, p).print_vector()
+        print("")
+        cross_product(q, r).print_vector()
+        print("")
+        cross_product(s, t).print_vector()
+        print("")
+        cross_product(w, x).print_vector()
+
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
         return
