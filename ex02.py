@@ -31,6 +31,7 @@ def main():
     '''main test function'''
     print("Results for exercise 02")
     try:
+        print("pdf test")
         print("Float interpolation")
         print(lerp(0., 1., 0.))
         print(lerp(0., 1., 1.))
@@ -42,6 +43,16 @@ def main():
         print("")
         print("Matrix Interpolation")
         lerp(Matrix([[2., 1.],[3.,4.]]), Matrix([[20.,10.],[30.,40.]]), 0.5).print_matrix()
+        print("")
+        print("eval test")
+        print("Float interpolation")
+        print(lerp(0., 1., 0.))
+        print(lerp(0., 1., 1.))
+        print(lerp(0., 42., 0.5))
+        print(lerp(-42., 42., 0.5))
+        print("")
+        print("Vector interpolation")
+        lerp(Vector([-42., 42.]), Vector([42.,-42.]), 0.5).print_vector()
 
     except (ValueError, TypeError) as e:
         print(f"error occured: {e}")
