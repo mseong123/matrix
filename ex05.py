@@ -21,6 +21,7 @@ def main():
     '''Test case for exercise 05'''
     print("Results for exercise 05")
     try:
+        # pdf test
         u:Vector[float] = Vector([1., 0.])
         v:Vector[float] = Vector([1., 0.])
         a:Vector[float] = Vector([1., 0.])
@@ -31,15 +32,34 @@ def main():
         j:Vector[float] = Vector([4., 2.])
         g:Vector[float] = Vector([1., 2., 3.])
         h:Vector[float] = Vector([4., 5., 6.])
+        # eval test
+        k:Vector[float] = Vector([1., 0.])
+        l:Vector[float] = Vector([0., 1.])
+        m:Vector[float] = Vector([8., 7.])
+        n:Vector[float] = Vector([3., 2.])
+        o:Vector[float] = Vector([1., 1.])
+        p:Vector[float] = Vector([1., 1.])
+        q:Vector[float] = Vector([4., 2.])
+        r:Vector[float] = Vector([1., 1.])
+        s:Vector[float] = Vector([-7., 3.])
+        t:Vector[float] = Vector([6., 4.])
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
         return
     try:
+        print("pdf test")
         print(angle_cos(u, v))
         print(angle_cos(a, b))
         print(angle_cos(c, d))
         print(angle_cos(i, j))
         print(angle_cos(g, h))
+        print("")
+        print("eval test")
+        print(angle_cos(k, l))
+        print(angle_cos(m, n))
+        print(angle_cos(o, p))
+        print(angle_cos(q, r))
+        print(angle_cos(s, t))
     except (TypeError, ValueError) as e:
         print(f"Error occured: {e}")
         return
