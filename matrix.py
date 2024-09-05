@@ -362,8 +362,14 @@ class Matrix(Generic[K]):
 
     def rank(self) -> int:
         self.row_echelon()
-        self.print_matrix()
-
+        column:int = self.size()[1] // self.size()[0]
+        def check_zero_row() -> int:
+            zero_row:int = 0
+            for j in range(self.size()[0]):
+                if all(self.value[k] ==0 for k in range(j, self.size()[1], self.size()[0])):
+                    zero_row += 1
+            return zero_row
+        return self.size()[0] - check_zero_row()
 
 
 
