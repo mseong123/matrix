@@ -15,6 +15,7 @@ def main():
         w:Matrix[float] = Matrix([[-2., -8., 4.],[1., -23., 4.], [0., 6., 4.]])
         # evalsheet pdf
         a:Matrix[float] = Matrix([[0., 0.], [0., 0.]])
+        f:Matrix[float] = Matrix([[1., 0.], [0., 1.]])
         b:Matrix[float] = Matrix([[1., 2.], [3., 4.]])
         c:Matrix[float] = Matrix([[8., -7.], [4., 2.]])
         d:Matrix[float] = Matrix([[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]])
@@ -24,14 +25,17 @@ def main():
         print(f"Error occured: {e}")
         return
     try:
-        print("subject.pdf test")
+        print("pdf test")
         print(u.trace())
         print("")
         print(v.trace())
         print("")
         print(w.trace())
+        print("")
         print("eval test")
         print(a.trace())
+        print("")
+        print(f.trace())
         print("")
         print(b.trace())
         print("")
