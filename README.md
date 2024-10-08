@@ -1,6 +1,6 @@
 # matrix | 42KL
 
-This Specialization project aims to dive deep into the subject of Linear Algebra which powers most of the underlying algorithms in Machine Learning / Artificial Intelligence and computer graphics. 
+This Specialization project aims to dive deep into the subject of Linear Algebra which powers most of the underlying algorithms in Machine Learning, Artificial Intelligence, Computer Graphics and other Computer Science subject matters. 
 Topics and exercises included in the project:
 1. Vector and Matrix operations (ie add, subtract, scale)
 2. Linear combination
@@ -22,6 +22,7 @@ Also important is the 3Blue1Brown youtube video series - Essence of Linear Algeb
  - [`Subject PDF`](https://github.com/mseong123/matrix/blob/master/en.subject.pdf)
  - [3Blue1Brown Essence of Linear Algebra](https://www.youtube.com/watch?v=fNk_zzaMoSs&list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
 
+Project is coded in Python and the exercise imposed time and space complexity limit on each operations. Project marks 100/100. 
 ## To run MANDATORY and BONUS
 ```
 python train.py
