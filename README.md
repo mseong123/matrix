@@ -22,21 +22,16 @@ Also important is the 3Blue1Brown youtube video series - Essence of Linear Algeb
  - [`Subject PDF`](https://github.com/mseong123/matrix/blob/master/en.subject.pdf)
  - [3Blue1Brown Essence of Linear Algebra](https://www.youtube.com/watch?v=fNk_zzaMoSs&list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
 
-Project is coded in Python and the exercise imposed time and space complexity limit on each operations. Project marks 100/100. 
-## To run MANDATORY and BONUS
-```
-python train.py
-python prediction.py
-```
-`python train.py` will train the regression model based on the dataset(data.csv). `python prediction` will then execute the program and prompt for an input (mileage) which will then output the predicted price of car based on the regression mode including a scatterplot showing the results and the precision of the model (R-square and Root Mean Square Deviation)
+Project is coded in Python and the exercise imposed time and space complexity limit on each operations. Also implemented Python type system and generics (Python 3.6 and above). 
 
-## To install jupyter lab
+## To run MANDATORY exercises
+Install Python version 3.12 for latest typing support
+Clone github repo.
+Run individual exercises using the following command:
 ```
-pip install jupyterlab
-jupyter lab
+python <exercise_no>.py
 ```
+Results include test cases to verify that the codes work as expected. 
 
-In web interface, open notebook (ft_linear_regression.ipynb) and run the cells. The notebook will provide visualisation to the gradient descent algorithm in action in particular:
-* Animation of the individual cost functions derivatives w.r.t each coefficient alongside the steps taken to reach the optimum solution.
-* The number of steps taken for the associated learning rate.
-* a 3D wireframe showing update of the GD for both coefficient at the same time. 
+Project marks 100/100. Bonus not included.
+
